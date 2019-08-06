@@ -1,140 +1,127 @@
 stackbitVersion: ~0.2.0
-ssgName: unibit
+ssgName: custom
+buildCommand: "npm run build"
+pageLayoutKey: type
+publishDir: dist
+pagesDir: blog
+staticDir: blog/.vuepress/public
 uploadDir: images
-buildCommand: unibit build
-publishDir: public
-dataDir: data
-pagesDir: content
-staticDir: static
-pageLayoutKey: layout
-metadata:
-  title: universal
-  description: A starter theme for Unibit
-  author: Stackbit
-  authorURL: 'https://www.stackbit.com'
-  images:
-    small: images/demo-256x192.png
-    large: images/demo-1024x768.png
-models: 
-  config: 
-    type: config
+dataDir: blog/.vuepress/data
+models:
+  config:
+    type: data
     label: Config
-    fields: 
-      - type: image
-        name: logo
-        label: Logo
-        description: the path of the logo image
+    file: config.json
+    fields:
+      - name: title
+        type: string
+        label: Title
         required: true
+      - name: description
+        type: text
+        label: Description
+        description: Text shown under the main logo
+      - name: base
+        type: string
+        label: Base
+        description: Base path under which the site will be served
+        default: "/vuepress-theme-casper/"
+      - name: themeConfig
+        type: object
+        label: Theme Config
+        fields:
+          - name: cover
+            type: image
+            label: Cover
+            description: Cover image shown on the home page
+          - name: logo
+            type: image
+            label: Logo
+            description: Logo image shown on the home page
+          - name: nav
+            type: list
+            label: Top Navigation Menu
+            items:
+              type: nav_item
+          - name: footer
+            type: list
+            label: Bottom Navigation Menu
+            items:
+              type: nav_item
+          - name: social
+            type: object
+            label: Social
+            fields:
+              - name: github
+                type: string
+                label: Github Link
+              - name: twitter
+                type: string
+                label: Twitter Link
+  nav_item:
+    type: object
+    label: Navigation Item
+    labelField: text
+    fields:
+      - name: text
+        type: string
+        label: Label
+        required: true
+      - name: link
+        type: string
+        label: Link
+        required: true
+        description: "Link of the navigation item, e.g.: /posts or https://facebook.com"
   home:
     type: page
     label: Home
     layout: home
-    file: index.md
-    hideContent: false
     singleInstance: true
-    fields:
-      - type: string
-        name: title
-        label: Title
-        description: The title of the page.
-        required: true
-      - type: string
-        name: heading
-        label: Heading
-        description: The heading displayed on the homepage
-      - type: boolean
-        name: show_button
-        label: Show Button
-        description: Show or hide the button on the hompage
-      - type: string
-        name: button_url
-        label: Button URL
-        description: URL the button links to
-      - type: string
-        name: button_text
-        label: Button Text
-        description: Text displayed in the button
-  links:
-    type: data
-    file: links.json
-    label: Supported Platforms 
-    fields:
-      - type: list
-        name: ssg
-        label: Static Site Generators
-        description: A list of static site generators supported by Stackbit
-        items:
-          type: object
-          labelField: title
-          fields:
-            - type: string
-              name: title
-              label: Title
-              required: true
-            - type: string
-              name: url
-              label: URL
-              widget: url
-              required: true
-      - type: list
-        name: cms
-        label: Headless CMS
-        description: A list of headless CMS supported by Stackbit
-        items:
-          type: object
-          labelField: title
-          fields:
-            - type: string
-              name: title
-              label: Title
-              required: true
-            - type: string
-              name: url
-              label: URL
-              widget: url
-              required: true
-  feature:
+    hideContent: true
+    file: index.md
+    fields: []
+  page:
     type: page
-    label: Feature
-    layout: feature
-    folder: features
+    label: Page
+    layout: page
+    match: "**/*.md"
+    exclude: "{index.md,posts/**/*,.vuewpress/**/*}"
     fields:
-      - type: string
-        name: title
+      - name: title
+        type: string
         label: Title
-        description: The title of the page.
         required: true
-      - type: text
-        name: description
-        label: Description
-        description: The text shown just below the features title.
-      - type: image
-        name: image_thumbnail
-        label: Thumbnail Image
-        description: The image shown in the feature.
-      - type: number
-        name: weight
-        label: Weight
-        description: Manually sort the order of the feature
-      - type: string
-        name: docs_button_url
-        label: Button URL
-        description: URL the button links to
-      - type: string
-        name: docs_button_text
-        label: Button Text
-        description: Text displayed in the button
-      - type: boolean
-        name: active
-        label: Active
-        description: Show/hide the feature on the features page
-  features:
+  post:
     type: page
-    label: Features
-    layout: features
+    label: Post
+    folder: posts
+    match: "**/*.md"
+    layout: post
     fields:
-      - type: string
-        name: title
+      - name: title
+        type: string
         label: Title
-        description: The title of the page.
         required: true
+      - name: image
+        type: image
+        label: Image
+      - name: publish
+        type: date
+        label: Date
+        required: true
+      - name: tags
+        type: list
+        label: Tags
+        items:
+          type: string
+      - name: categories
+        type: list
+        label: categories
+        items:
+          type: enum
+          options:
+            - dexter
+            - futurama
+      - name: readingTime
+        type: string
+        label: Reading Time

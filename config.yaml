@@ -5,7 +5,7 @@ params:
   header:
     title: Fjord
     tagline: Minimal and clean blog theme
-    logo_img: "images/logo.png"
+    logo_img: "src/images/icon.png"
     bg_img: "images/header-bg.jpg"
     has_nav: true
     has_social: true
